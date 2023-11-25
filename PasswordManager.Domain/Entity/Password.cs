@@ -1,4 +1,4 @@
-namespace PasswordManager;
+namespace PasswordManager.Domain;
 
 public class Password
 {
