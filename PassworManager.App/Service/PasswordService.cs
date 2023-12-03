@@ -30,9 +30,11 @@ namespace PassworManager.App.Service
             Passwords = fileManager.ReadFile();
             if (Passwords==null)
             {
+                newPassword.Id = Passwords.Count + 1;
                 Passwords.Add(newPassword);
                 fileManager.SaveListToFile(Passwords);
             }
+            newPassword.Id = Passwords.Count + 1;
             Passwords.Add(newPassword);
             fileManager.SaveListToFile(Passwords);
         }
@@ -58,14 +60,17 @@ namespace PassworManager.App.Service
             fileManager.SaveListToFile(Passwords);
         }
 
-        public void UpdatePassword(Password passwordToUpdate)
+        public void UpdatePassword(Password passwordToUpdate, int id)
         {
             Passwords = fileManager.ReadFile();
-            var pass = Passwords.FirstOrDefault(x => x.Website == passwordToUpdate.Website);
-            if (pass!=null)
+            var index=Passwords.FindIndex(x => x.Id == id);
+            if (index != null)
             {
-                pass = passwordToUpdate;
+                
+                Passwords[index]= passwordToUpdate;
+                
             }
+
             fileManager.SaveListToFile(Passwords);
         }
     }

@@ -41,6 +41,6 @@ class Program
                     Environment.Exit(0);
                     break;
             }
-        } while (action.KeyChar != '5');
+        } while (action.KeyChar != '6');
     }
 }

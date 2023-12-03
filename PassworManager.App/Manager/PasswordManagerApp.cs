@@ -137,7 +137,7 @@ namespace PassworManager.App.Manager
             Password passwordToFind;
             do
             {
-                Console.WriteLine("\n--Podaj nazwe strony do edycji:--");
+                Console.WriteLine("\n--Podaj nazwę strony do edycji:--");
                 var website = Console.ReadLine();
                 passwordToFind = _passwordService.GetPasswordByName(website);
                 if (passwordToFind == null)
@@ -146,10 +146,57 @@ namespace PassworManager.App.Manager
                     website = Console.ReadLine();
                 }
             } while (passwordToFind == null);
+            ViewMessages.ShowPassword(passwordToFind);
+            ConsoleKeyInfo action;
+            Console.WriteLine("\n1: Edytuj nazwę strony");
+            Console.WriteLine("2: Edytuj login");
+            Console.WriteLine("3: Edytuj hasło\n");
+            action = Console.ReadKey();
+            switch (action.KeyChar)
+            {
+                case '1':
+                    Console.WriteLine("--Podaj nową nazwe strony:--");
+                    passwordToFind.Website = Console.ReadLine();
+                    _passwordService.UpdatePassword(passwordToFind, passwordToFind.Id);
+                    break;
+                case '2':
+                    Console.WriteLine("--Podaj nowy login:--");
+                    
+                    passwordToFind.UserName = Console.ReadLine();
+                    _passwordService.UpdatePassword(passwordToFind, passwordToFind.Id);
+                    break;
+                case '3':
+                    do
+                    {
+                        Console.WriteLine("\n1: Wpisz haslo:");
+                        Console.WriteLine("2: Generuj haslo:");
+                        ConsoleKeyInfo passwordAction = Console.ReadKey();
+                        Console.WriteLine("\n");
+                        switch (passwordAction.KeyChar)
+                        {
+                            case '1':
+                                Console.WriteLine("--Podaj nowe hasło:--");
+                                passwordToFind.UserPassword = Console.ReadLine();
+                                _passwordService.UpdatePassword(passwordToFind, passwordToFind.Id);
+                                break;
+                            case '2':
+                                passwordToFind.UserPassword = GeneratedPassword();
+                                _passwordService.UpdatePassword(passwordToFind, passwordToFind.Id);
+                                break;
+                            default:
+                                ViewMessages.ShowError("Brak takiej akcji");
+                                break;
+                        }
+                    } while (passwordToFind.UserPassword == null);
 
-            ViewMessages.ShowPassword(passwordToFind);//dodac edycje
-            _passwordService.UpdatePassword(passwordToFind);
+                    break;
+                default:
+                    ViewMessages.ShowError("Brak takiej akcji");
+                    break;
+            }
+
             Console.WriteLine("--Edytowano--");
+            ViewMessages.ShowPassword(passwordToFind);
         }
         //Testing
         public Password GetPasswordByName(string name)

@@ -12,7 +12,7 @@ namespace PassworManager.App.Interface
         List<T> GetAllPasswords();
         void AddNewPassword(T newPassword);
         void DeletePassword(T passwordToDelete);
-        void UpdatePassword(T passwordToUpdate);
+        void UpdatePassword(T passwordToUpdate, int id);
         T GetPasswordByName(string webSiteName);
     }
 }
