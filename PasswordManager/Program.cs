@@ -7,11 +7,13 @@ namespace PasswordManager;
 
 class Program
 {
+    
     static void Main(string[] args)
     {
         Console.WriteLine(ViewMessages.LogoGenerator());
         PasswordService passwordService = new PasswordService();
         PasswordManagerApp passwordManager = new PasswordManagerApp(passwordService);
+        
         Console.WriteLine("Witaj w Locker v: 1.0.0");
         ConsoleKeyInfo action;
         do
@@ -30,9 +32,12 @@ class Program
                     passwordManager.GetPasswordByWebName();
                     break;
                 case '4':
-                    passwordManager.RemovePassword();
+                    passwordManager.EditPassword();
                     break;
                 case '5':
+                    passwordManager.RemovePassword();
+                    break;
+                case '6':
                     Environment.Exit(0);
                     break;
             }

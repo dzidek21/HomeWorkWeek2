@@ -1,17 +1,21 @@
 ﻿using PasswordManager.Domain;
 using PassworManager.App.Helpers;
+using PassworManager.App.Interface;
 using PassworManager.App.Service;
 
 namespace PassworManager.App.Manager
 {
+    
     public class PasswordManagerApp
     {
-        private readonly PasswordService _passwordService;
+        
+        private IService<Password> _passwordService;
         private List<Password> passwords = new List<Password>();
         static char[] passwordCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray();
         string? password;
+        
 
-        public PasswordManagerApp(PasswordService passwordService)
+        public PasswordManagerApp(IService<Password> passwordService)
         {
             _passwordService = passwordService;
         }
@@ -46,6 +50,7 @@ namespace PassworManager.App.Manager
             ViewMessages.ShowPassword(newPassword);
             Console.WriteLine($"---Dodano pomyslnie--\n");
             _passwordService.AddNewPassword(newPassword);
+            
         }
 
         private string? GeneratedPassword()
@@ -126,6 +131,30 @@ namespace PassworManager.App.Manager
             ViewMessages.ShowPassword(passwordToFind);
             _passwordService.DeletePassword(passwordToFind);
             Console.WriteLine("--Usunieto--");
+        }
+        public void EditPassword()
+        {
+            Password passwordToFind;
+            do
+            {
+                Console.WriteLine("\n--Podaj nazwe strony do edycji:--");
+                var website = Console.ReadLine();
+                passwordToFind = _passwordService.GetPasswordByName(website);
+                if (passwordToFind == null)
+                {
+                    ViewMessages.ShowError("Nie znaleziono hasla");
+                    website = Console.ReadLine();
+                }
+            } while (passwordToFind == null);
+
+            ViewMessages.ShowPassword(passwordToFind);//dodac edycje
+            _passwordService.UpdatePassword(passwordToFind);
+            Console.WriteLine("--Edytowano--");
+        }
+        //Testing
+        public Password GetPasswordByName(string name)
+        {
+            return _passwordService.GetPasswordByName(name);
         }
     }
 }

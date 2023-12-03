@@ -21,7 +21,7 @@ public static class ViewMessages
 
     public static void StartUpMenu()
     {
-        Console.WriteLine("\n1: Dodaj haslo \n2: Pokaz liste hasel \n3: Szukaj \n4: Usun haslo \n5: Wyjscie");
+        Console.WriteLine("\n1: Dodaj haslo \n2: Pokaz liste hasel \n3: Szukaj \n4: Edytuj haslo \n5: Usun haslo \n6: Wyjscie");
     }
     public static string LogoGenerator()
     {
